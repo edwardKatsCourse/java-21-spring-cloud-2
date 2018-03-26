@@ -1,0 +1,32 @@
+Players:
+- eureka-service
+- gateway-service
+- account-service
+- statistics-service
+- config-service
+
+Description:
+Demo application for recording expenditures and incomes.
+
+Gateway has two controllers: creating a user and adding an expenditure/income record.
+Gateway resolves the server address, using eureka-service, by service name (service id).
+Service names are: gateway-service, config-service, account-service and so on (the names in spring.application.name).
+When the request comes to RegistrationController - the request should be redirected to account-service and
+stored there.
+When the request comes to StatisticsController - it is necessary to redirect the response to statistics-service.
+
+Any response from account-service or statistics-service should be presented as String.class in gateway-service.
+It means, there is NO NEED to create a "specials" class for Rest Repositories or to parse JSON. Gateway just returns the response.
+
+account-service and statistics-service work with separate databases each.
+All database configurations for each service should be stored in the corresponding .properties files in
+config-service.
+
+statistics-service should receive only userId in order to record a transaction. When userId is used as
+a parameter, it is recommended to check such user existence in account-service (response status 200 from account-service - exists, 500 - does not exist)
+
+
+Good luck!
+
+The goal of this homework is to configure the environment with the minimal configuration.
+Don't dive into business logic to deep!
